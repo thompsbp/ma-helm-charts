@@ -17,8 +17,8 @@ config:
   chk:
     name: "keeper-cluster"
     resources:
-      # disk_volume_size: 20Gi
-      # replicasCount: 2
+      disk_volume_size: 20Gi
+      replicasCount: 3
       requests:
         memory: 256M
         cpu: 1
@@ -26,6 +26,8 @@ config:
         memory: 4Gi
         cpu: 2
   ch:
+    monitoring:
+      enabled: true
     profiles:
       - name: readonly
         readonly: 1
