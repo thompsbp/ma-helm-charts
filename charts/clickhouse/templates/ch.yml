@@ -3,7 +3,7 @@
 apiVersion: "clickhouse.altinity.com/v1"
 kind: "ClickHouseInstallation"
 metadata:
-  name: ch-cluster
+  name: {{ .Values.config.ch.name }}
   namespace: {{ .Values.namespace }}
 spec:
   configuration:
@@ -14,7 +14,7 @@ spec:
           port: 2181
 {{- end }}
     clusters:
-      - name: ch-cluster
+      - name: {{ .Values.config.ch.name }}
         layout:
           shardsCount: {{ .Values.config.ch.resources.shardCount | default 1 }}
           replicasCount: {{ .Values.config.ch.resources.replicasCount | default 1 }}
@@ -117,6 +117,11 @@ spec:
         generateName: "clickhouse-{chi}"
         spec:
           ports:
+{{- if .Values.config.ch.monitoring.enabled }}
+            - name: http-monitor
+              port: 8888
+              targetPort: 8888
+{{- end }}
             - name: http
               port: 8123
               targetPort: 8123

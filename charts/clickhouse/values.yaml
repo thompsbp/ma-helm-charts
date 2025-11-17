@@ -28,6 +28,7 @@ config:
         memory: 4Gi
         cpu: 2
   ch:
+    name: ch-cluster
     monitoring:
       enabled: true
     profiles:
