@@ -3,14 +3,15 @@
 apiVersion: "clickhouse-keeper.altinity.com/v1"
 kind: "ClickHouseKeeperInstallation"
 metadata:
-  name: {{ .Values.config.chk.name }} 
-  namespace: {{ .Values.namespace }}
+  name: { { .Values.config.chk.name } }
+  namespace: { { .Values.namespace } }
 spec:
   configuration:
     clusters:
-      - name: {{ .Values.config.chk.name }} 
+      - name: { { .Values.config.chk.name } }
         layout:
-          replicasCount: {{ .Values.config.chk.resources.replicasCount | default 3 }}
+          replicasCount:
+            { { .Values.config.chk.resources.replicasCount | default 3 } }
     settings:
       logger/level: "information"
       logger/console: "true"
@@ -62,7 +63,12 @@ spec:
         spec:
           accessModes:
             - ReadWriteOnce
+          storageClassName: ceph-csi-rbd-sc
           resources:
             requests:
-              storage: {{ .Values.config.chk.resources.disk_volume_size |default "10Gi" }}
-
+              storage:
+                {
+                  {
+                    .Values.config.chk.resources.disk_volume_size |default "10Gi",
+                  },
+                }

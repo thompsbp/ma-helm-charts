@@ -127,7 +127,7 @@ spec:
             - name: interserver
               port: 9009
               targetPort: 9009
-          type: ClusterIP
+          type: LoadBalancer
     podTemplates:
       - name: clickhouse-pod-template
         spec:
@@ -157,6 +157,7 @@ spec:
         spec:
           accessModes:
             - ReadWriteOnce
+          storageClassName: ceph-csi-rbd-sc
           resources:
             requests:
               storage: {{ .Values.config.ch.resources.disk_volume_size |default "1000Gi" }}
@@ -164,6 +165,7 @@ spec:
         spec:
           accessModes:
             - ReadWriteOnce
+          storageClassName: ceph-csi-rbd-sc
           resources:
             requests:
               storage: {{ .Values.config.ch.resources.log_volume_size |default "10Gi" }}

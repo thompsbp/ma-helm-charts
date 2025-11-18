@@ -7,8 +7,8 @@ namespace: clickhouse
 
 config:
   tls:
-    enabled: true
-    routes: true
+    enabled: false
+    routes: false
     cert_name: tls-cert2
   clickhouse_version: 25.9
   domains:
