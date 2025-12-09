@@ -63,12 +63,12 @@ spec:
         spec:
           accessModes:
             - ReadWriteOnce
-          storageClassName: ceph-csi-rbd-sc
+          storageClassName: csi-rbd-sc
           resources:
             requests:
               storage:
                 {
                   {
-                    .Values.config.chk.resources.disk_volume_size |default "10Gi",
+                    .Values.config.chk.resources.disk_volume_size | default "10Gi",
                   },
                 }

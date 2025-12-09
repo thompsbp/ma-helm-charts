@@ -1,0 +1,33 @@
+{{- if .Values.config.tls.enabled }}
+---
+# Ingress for ClickHouse HTTPS access
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: clickhouse-ingress
+  namespace: {{ .Values.namespace }}
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+{{- range .Values.config.domains }}
+        - {{ . }}
+{{- end }}
+      secretName: {{ .Values.config.tls.cert_name }}
+  rules:
+{{- range .Values.config.domains }}
+    - host: {{ . }}
+      http:
+        paths:
+          - path: /clickhouse
+            pathType: Prefix
+            backend:
+              service:
+                name: clickhouse-ch-cluster
+                port:
+                  number: 8443
+{{- end }}
+{{- end }}

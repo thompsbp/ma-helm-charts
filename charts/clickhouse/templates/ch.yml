@@ -1,5 +1,5 @@
 ---
-# ClickHouse Cluster with 3 shards and 2 replicas
+# ClickHouse Cluster with configurable shards and replicas
 apiVersion: "clickhouse.altinity.com/v1"
 kind: "ClickHouseInstallation"
 metadata:
@@ -127,7 +127,7 @@ spec:
             - name: interserver
               port: 9009
               targetPort: 9009
-          type: LoadBalancer
+          type: ClusterIP
     podTemplates:
       - name: clickhouse-pod-template
         spec:
@@ -157,15 +157,15 @@ spec:
         spec:
           accessModes:
             - ReadWriteOnce
-          storageClassName: ceph-csi-rbd-sc
+          storageClassName: csi-rbd-sc
           resources:
             requests:
-              storage: {{ .Values.config.ch.resources.disk_volume_size |default "1000Gi" }}
+              storage: {{ .Values.config.ch.resources.disk_volume_size | default "1000Gi" }}
       - name: log-volume
         spec:
           accessModes:
             - ReadWriteOnce
-          storageClassName: ceph-csi-rbd-sc
+          storageClassName: csi-rbd-sc
           resources:
             requests:
-              storage: {{ .Values.config.ch.resources.log_volume_size |default "10Gi" }}
+              storage: {{ .Values.config.ch.resources.log_volume_size | default "10Gi" }}
